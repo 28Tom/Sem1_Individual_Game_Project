@@ -435,7 +435,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40fe7528c5ad16c45889f60fda7614e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  xVelocity: 1
+  xVelocity: 0.3
   yVelocity: 0
 --- !u!64 &526220322
 MeshCollider:

@@ -8,7 +8,7 @@ public class scroll : MonoBehaviour
     Material material;
     Vector2 offset;
 
-    public int xVelocity, yVelocity;
+    public float xVelocity, yVelocity;
     // Start is called before the first frame update
     private void Awake()
     {
