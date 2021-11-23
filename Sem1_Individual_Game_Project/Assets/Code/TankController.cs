@@ -4,41 +4,43 @@ using UnityEngine;
 
 public class TankController : MonoBehaviour
 {
-    public GameObject[] gameObjects;
+    public Rigidbody2D rb2d;
+    private Vector2 movementVector;
+    public float maxSpeed = 10;
+    public float rotationSpeed = 100;
+    public float turretRotationSpeed = 150;
 
-    public TankMover tankMover;
-    public AimTurret aimTurret;
-    public Turret[] turrets;
+    public Transform turretParent;
 
     private void Awake()
     {
-        if (tankMover == null)
-            tankMover = GetComponentInChildren<TankMover>();
-
-        if (aimTurret == null)
-            aimTurret = GetComponentInChildren<AimTurret>();
-        if(turrets == null || turrets.Length == 0)
-        {
-            turrets = GetComponentsInChildren<Turret>();
-        }
+        rb2d = GetComponent<Rigidbody2D>();
     }
-
     public void HandleShoot()
     {
-        foreach (var turret in turrets)
-        {
-            turret.Shoot();
-        }
+        Debug.Log("Shooting");
     }
 
     public void HandleMoveBody(Vector2 movementVector)
     {
-        tankMover.Move(movementVector);
+        this.movementVector = movementVector;
     }
 
     public void HandleTurretMovment(Vector2 pointerPostion)
     {
-        aimTurret.Aim(pointerPostion);
-        
+        var turretDirection = (Vector3)pointerPostion - transform.position;
+
+        var desiredAngle = Mathf.Atan2(turretDirection.y, turretDirection.x) * Mathf.Rad2Deg;
+
+        var rotationStep = turretRotationSpeed * Time.deltaTime;
+
+        turretParent.rotation = Quaternion.RotateTowards(turretParent.rotation, Quaternion.Euler(0, 0, desiredAngle-90), rotationStep);
+    }
+
+    private void FixedUpdate()
+    {
+        rb2d.velocity = (Vector2)transform.up * movementVector.y * maxSpeed * Time.deltaTime;
+        rb2d.MoveRotation(transform.rotation * Quaternion.Euler(0, 0,  -movementVector.x * rotationSpeed * Time.deltaTime));
+
     }
 }
