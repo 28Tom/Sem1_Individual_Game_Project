@@ -13,7 +13,7 @@ public class HealthBar : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		localScale.x = FriendlyShip.healthAmount;
+		localScale.x = FriendlyCar.healthAmount;
 		transform.localScale = localScale;
 	}
 }
